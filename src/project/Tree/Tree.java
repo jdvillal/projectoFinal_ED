@@ -1,5 +1,6 @@
 package project.Tree;
 
+import project.fileDescriptor.Descriptable;
 import project.linkedList.LinkedList;
 
 /*
@@ -16,7 +17,15 @@ import project.linkedList.LinkedList;
 public class Tree<T> {
     private TreeNode<T> root;
     
-    public LinkedList<Tree> getChildre(){
+    public Tree(T content){
+        this.root = new TreeNode(content);
+    }
+    
+    public TreeNode<T> getRoot(){
+        return root;
+    }
+    
+    public LinkedList<Tree<T>> getChildren(){
         return root.getChildren();
     }
     
@@ -27,6 +36,17 @@ public class Tree<T> {
     public int countChildren(){
         return root.getChildren().getSize();
     }
+    
+    public void addChild(T content){
+        Tree<T> nChild = new Tree(content);
+        this.root.addChild(nChild);
+    }
+    
+    public void setChildren(LinkedList<Tree<T>> children){
+        this.root.setChildren(children);
+    }
+    
+    
     
     
     

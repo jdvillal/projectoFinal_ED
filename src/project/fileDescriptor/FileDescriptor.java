@@ -6,20 +6,26 @@
 package project.fileDescriptor;
 
 import java.io.File;
+import javafx.scene.paint.Color;
 
 /**
  *
  * @author danie
  */
+
 public class FileDescriptor implements Descriptable {
-    private long size;
+    private final long size;
     private String fileName;
+    private final Color color;
 
     public FileDescriptor(File toDescript) {
+        this.fileName = toDescript.getName();
         if(toDescript.isDirectory()){
             this.size = getDirSize(toDescript);
+            this.color = Color.DARKSALMON;
         }else{
             this.size = toDescript.length();
+            this.color = Color.SKYBLUE;
         }
     }
 
@@ -44,6 +50,11 @@ public class FileDescriptor implements Descriptable {
             }
         }
         return length;
+    }
+
+    @Override
+    public Color getColor() {
+        return this.color;
     }
 
 }

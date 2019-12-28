@@ -5,6 +5,8 @@
  */
 package project.fileDescriptor;
 
+import javafx.scene.paint.Color;
+
 /**
  *
  * @author danie
@@ -13,4 +15,5 @@ public interface Descriptable {
     
     public long getSize();
     public String getDescription();
+    public Color getColor();
 }

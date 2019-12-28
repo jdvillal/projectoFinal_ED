@@ -14,7 +14,7 @@ import project.linkedList.LinkedList;
  */
 public class TreeNode<T> {
     private T content;
-    private LinkedList<Tree> children;
+    private LinkedList<Tree<T>> children;
     
     public TreeNode(T content){
         this.content = content;
@@ -25,7 +25,7 @@ public class TreeNode<T> {
         return content;
     }
 
-    public LinkedList getChildren() {
+    public LinkedList<Tree<T>> getChildren() {
         return children;
     }
 
@@ -33,8 +33,19 @@ public class TreeNode<T> {
         this.content = content;
     }
 
-    public void setChildren(LinkedList children) {
+    public void addChildren(LinkedList<T> children) {
+        for(int i = 0; i <  children.getSize();i++){
+            Tree nTree = new Tree(children.get(i));
+            this.children.add(nTree);
+        }
+    }
+    
+    public void setChildren(LinkedList<Tree<T>> children){
         this.children = children;
+    }
+    
+    public void addChild(Tree child){
+        this.children.add(child);
     }
     
     

@@ -15,10 +15,10 @@ import project.fileDescriptor.Descriptable;
  */
 
 public class TreeMap {
-    private Tree<Descriptable> directoryTree;
+    private final Tree<Descriptable> directoryTree;
     
-    public TreeMap(){
-        
+    public TreeMap(Tree<Descriptable> directoryTree){
+        this.directoryTree = directoryTree;
     }
     
 }

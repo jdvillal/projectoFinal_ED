@@ -16,6 +16,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import project.Tree.Tree;
+import project.fileDescriptor.Descriptable;
+import project.fileDescriptor.FileDescriptor;
+import project.linkedList.LinkedList;
 
 /**
  *
@@ -52,15 +56,9 @@ public class PaneOrganizer {
             @Override
             public void handle(ActionEvent event) {
                 File fl = new File(dirLbl.getText());
-                File arr[] = fl.listFiles();
-                for (File s : arr) {
-                    if(s.isFile()){
-                        System.out.println("FILE: "+s.getName()+" size: "+ s.length());
-                   }else{
-                       System.out.println("NOT FILE: " + s.getName() + " size: "+s.length());
-                   }
-                }
+                Tree<Descriptable> dirTree = createDirectoryTree(fl,0);
                 System.out.println("Total size: " + getDirSize(fl));
+                treeIterator(dirTree, 0);
             }
         });
         VBox root = new VBox();
@@ -86,6 +84,40 @@ public class PaneOrganizer {
             }
         }
         return length;
+    }
+
+    static Tree<Descriptable> createDirectoryTree(File folder, int tabs) {
+        Tree<Descriptable> tree = new Tree(new FileDescriptor(folder));
+        File[] files = folder.listFiles();
+        if (files.length != 0) {
+            LinkedList<Tree<Descriptable>> childrenList = new LinkedList();
+            String identer = "|";
+            for (int i = 0; i < tabs; i++) {
+                identer = identer + "|    ";
+            }
+            for (File fl : files) {
+                //System.out.println(identer + fl.getName());
+                if (fl.isFile()) {
+                    childrenList.add(new Tree(new FileDescriptor(fl)));
+                } else {
+                    childrenList.add(createDirectoryTree(fl,tabs+1));
+                }
+            }
+            tree.setChildren(childrenList);
+        } 
+        return tree;
+    }
+
+    static void treeIterator(Tree<Descriptable> t, int tabs) {
+        String identer = "";
+        for (int i = 0; i < tabs; i++) {
+            identer = identer + "|    ";
+        }
+        System.out.println(identer + t.getRoot().getContent().getDescription());
+        LinkedList<Tree<Descriptable>> children = t.getChildren();
+        for (int i = 0; i < t.countChildren(); i++) {
+            treeIterator(children.get(i), tabs + 1);
+        }
     }
 
 }
