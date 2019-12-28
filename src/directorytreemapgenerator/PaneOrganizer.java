@@ -22,15 +22,16 @@ import javafx.stage.Stage;
  * @author daniel
  */
 public class PaneOrganizer {
+
     private Stage primaryStage;
-    
-    public PaneOrganizer(Stage stage){
+
+    public PaneOrganizer(Stage stage) {
         this.primaryStage = stage;
     }
-    
-    public void drawStartPane(){
+
+    public void drawStartPane() {
         Label titleLbl = new Label("Seleccione un directorio para comenzar");
-        titleLbl.setFont(new Font("Tahoma",22));
+        titleLbl.setFont(new Font("Tahoma", 22));
         Label dirLbl = new Label("No se ha seleccionado un directorio");
         Button selectDirBtn = new Button();
         selectDirBtn.setText("Seleccionar directorio");
@@ -40,9 +41,9 @@ public class PaneOrganizer {
         selectDirBtn.setOnAction((ActionEvent event) -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             File selectedDirectory = directoryChooser.showDialog(primaryStage);
-            if(selectedDirectory == null){
+            if (selectedDirectory == null) {
                 System.out.println("No Directory selected");
-            }else{
+            } else {
                 genTreeBtn.setDisable(false);
                 dirLbl.setText(selectedDirectory.getAbsolutePath());
             }
@@ -50,17 +51,41 @@ public class PaneOrganizer {
         genTreeBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-              
+                File fl = new File(dirLbl.getText());
+                File arr[] = fl.listFiles();
+                for (File s : arr) {
+                    if(s.isFile()){
+                        System.out.println("FILE: "+s.getName()+" size: "+ s.length());
+                   }else{
+                       System.out.println("NOT FILE: " + s.getName() + " size: "+s.length());
+                   }
+                }
+                System.out.println("Total size: " + getDirSize(fl));
             }
         });
-        VBox root = new VBox(); root.setAlignment(Pos.CENTER); root.setSpacing(20);
-        root.getChildren().addAll(titleLbl,dirLbl,selectDirBtn,genTreeBtn);
-        
+        VBox root = new VBox();
+        root.setAlignment(Pos.CENTER);
+        root.setSpacing(20);
+        root.getChildren().addAll(titleLbl, dirLbl, selectDirBtn, genTreeBtn);
+
         Scene scene = new Scene(root, 600, 400);
-        
+
         primaryStage.setTitle("Directory Treemap Generator");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
+
+    static long getDirSize(File folder) {
+        long length = 0;
+        File[] files = folder.listFiles();
+        for (File fl : files) {
+            if (fl.isFile()) {
+                length = length + fl.length();
+            } else {
+                length = length + getDirSize(fl);
+            }
+        }
+        return length;
+    }
+
 }
