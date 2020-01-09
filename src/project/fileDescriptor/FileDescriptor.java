@@ -10,11 +10,12 @@ import javafx.scene.paint.Color;
 
 /**
  *
- * @author danie
- */
+ * @author daniel
+ *
+ **/
 
 public class FileDescriptor implements Descriptable {
-    private final long size;
+    private final double size;
     private String fileName;
     private final Color color;
 
@@ -30,7 +31,7 @@ public class FileDescriptor implements Descriptable {
     }
 
     @Override
-    public long getSize() {
+    public double getSize() {
         return this.size;
     }
 

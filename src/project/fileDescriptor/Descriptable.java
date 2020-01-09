@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
  */
 public interface Descriptable {
     
-    public long getSize();
+    public double getSize();
     public String getDescription();
     public Color getColor();
 }

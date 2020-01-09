@@ -12,7 +12,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -20,7 +22,6 @@ import project.Tree.Tree;
 import project.fileDescriptor.Descriptable;
 import project.fileDescriptor.FileDescriptor;
 import project.linkedList.LinkedList;
-
 /**
  *
  * @author daniel
@@ -57,20 +58,36 @@ public class PaneOrganizer {
             public void handle(ActionEvent event) {
                 File fl = new File(dirLbl.getText());
                 Tree<Descriptable> dirTree = createDirectoryTree(fl,0);
+                TreeMap tm = new TreeMap(dirTree);
+                tm.drawTreemap();
                 System.out.println("Total size: " + getDirSize(fl));
-                treeIterator(dirTree, 0);
+                //treeIterator(dirTree, 0);
+                //rectangle();
             }
         });
+        
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         root.setSpacing(20);
         root.getChildren().addAll(titleLbl, dirLbl, selectDirBtn, genTreeBtn);
-
         Scene scene = new Scene(root, 600, 400);
 
         primaryStage.setTitle("Directory Treemap Generator");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    public void rectangle(){
+        Stage st2 = new Stage();
+        Rectangle rc = new Rectangle();
+        //rc.setTranslateX(0);rc.setTranslateY(100);
+        rc.setWidth(100);
+        rc.setHeight(100);
+        GridPane sp = new GridPane();
+        sp.getChildren().add(rc);
+        Scene sc = new Scene(sp,400,400);
+        st2.setScene(sc);
+        st2.show();
     }
 
     static long getDirSize(File folder) {
@@ -96,7 +113,6 @@ public class PaneOrganizer {
                 identer = identer + "|    ";
             }
             for (File fl : files) {
-                //System.out.println(identer + fl.getName());
                 if (fl.isFile()) {
                     childrenList.add(new Tree(new FileDescriptor(fl)));
                 } else {
