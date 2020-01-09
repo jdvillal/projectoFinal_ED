@@ -79,6 +79,17 @@ public class LinkedList<E> {
         return this.effectiveSize == 0;
     }
     
+    public boolean contains(E content){
+        Node<E> str = this.head;
+        for(int i = 0; i < this.effectiveSize;i++){
+            if(str.getContent().equals(content)){
+                return true;
+            }
+            str = str.getNext();
+        }
+        return false;
+    }
+    
   
     
     

@@ -75,11 +75,8 @@ public class TreeMap {
         }
         
         if(tree.isLeaf()){
-            if(tree.getRoot().getContent().getColor()==Color.SKYBLUE){
-                rectangle.setStyle("-fx-fill: lightgreen; -fx-stroke: green; -fx-stroke-width: 1;");
-            }else{
-                rectangle.setStyle("-fx-fill: blue; -fx-stroke: black; -fx-stroke-width: 1;");
-                }
+            
+            rectangle.setStyle(tree.getRoot().getContent().getStyle());
             rectangles.add(rectangle);
         }else{
             LinkedList<Tree<Descriptable>> children = tree.getChildren();
