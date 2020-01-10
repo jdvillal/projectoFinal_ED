@@ -16,7 +16,7 @@ import project.linkedList.LinkedList;
 
 public class FileDescriptor implements Descriptable {
     private final double size;
-    private String fileName;
+    private final String fileName;
     private final String style;
 
     public FileDescriptor(File toDescript) {
@@ -98,31 +98,31 @@ public class FileDescriptor implements Descriptable {
         diskimage.add("hds");diskimage.add("hfs");diskimage.add("ibp");diskimage.add("isz");diskimage.add("ncd");diskimage.add("sdi");diskimage.add("x64");diskimage.add("xvd");
         extencion = extencion.toLowerCase();
         if(text.contains(extencion)){
-            return "-fx-fill: gray; -fx-stroke: white; -fx-stroke-width: 1;";
+            return "-fx-fill: lavender; -fx-stroke: darkviolet; -fx-stroke-width: 1;";
         }else if(word.contains(extencion)){
-            return "-fx-fill: blue; -fx-stroke: darkblue; -fx-stroke-width: 1;";
+            return "-fx-fill: royalblue; -fx-stroke: powderblue; -fx-stroke-width: 1;";
         }else if(excel.contains(extencion)){
-            return "-fx-fill: green; -fx-stroke: darkgreen; -fx-stroke-width: 1;";
+            return "-fx-fill: seagreen; -fx-stroke: palegreen; -fx-stroke-width: 1;";
         }else if(powerpoint.contains(extencion)){
-            return "-fx-fill: orange; -fx-stroke: darkorange; -fx-stroke-width: 1;";
+            return "-fx-fill: tomato; -fx-stroke: red; -fx-stroke-width: 1;";
         }else if(audio.contains(extencion)){
-            return "-fx-fill: yellow; -fx-stroke: brown; -fx-stroke-width: 1;";
+            return "-fx-fill: slateblue; -fx-stroke: deepskyblue; -fx-stroke-width: 1;";
         }else if(video.contains(extencion)){
-            return "-fx-fill: brown; -fx-stroke: lightbrown; -fx-stroke-width: 1;";
+            return "-fx-fill: lightpink; -fx-stroke: deeppink; -fx-stroke-width: 1;";
         }else if(image.contains(extencion)){
-            return "-fx-fill: lightgreen; -fx-stroke: green; -fx-stroke-width: 1;";
+            return "-fx-fill: mistyrose; -fx-stroke: palevioletred; -fx-stroke-width: 1;";
         }else if(system.contains(extencion)){
-            return "-fx-fill: red; -fx-stroke: darkred; -fx-stroke-width: 1;";
+            return "-fx-fill: tan; -fx-stroke: chocolate; -fx-stroke-width: 1;";
         }else if(compressed.contains(extencion)){
-            return "-fx-fill: lightbrown; -fx-stroke: brown; -fx-stroke-width: 1;";
+            return "-fx-fill: sienna; -fx-stroke: tan; -fx-stroke-width: 1;";
         }else if(internet.contains(extencion)){
-            return "-fx-fill: lightblue; -fx-stroke: blue; -fx-stroke-width: 1;";
+            return "-fx-fill: aquamarine; -fx-stroke: darkcyan; -fx-stroke-width: 1;";
         }else if(other.contains(extencion)){
-            return "-fx-fill: yellow; -fx-stroke: orange; -fx-stroke-width: 1;";
+            return "-fx-fill: darkkhaki; -fx-stroke: yellow; -fx-stroke-width: 1;";
         }else if(diskimage.contains(extencion)){
-            return "-fx-fill: lightyellow; -fx-stroke: brown; -fx-stroke-width: 1;";
+            return "-fx-fill: skyblue; -fx-stroke: navy; -fx-stroke-width: 1;";
         }else{
-            return "-fx-fill: black; -fx-stroke: white; -fx-stroke-width: 1;";
+            return "-fx-fill: dimgray; -fx-stroke: gainsboro; -fx-stroke-width: 1;";
         }
     }
     
