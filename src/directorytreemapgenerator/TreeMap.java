@@ -1,10 +1,11 @@
 package directorytreemapgenerator;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -33,7 +34,7 @@ public class TreeMap {
     }
     
     public void drawTreemap(){
-        Stage st2 = new Stage();
+        Stage st = new Stage();
         Rectangle rc = new Rectangle();
         rc.setManaged(false);
         rc.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 2;");
@@ -47,13 +48,20 @@ public class TreeMap {
             sp.add(this.rectangles.get(i),0,0);
         }
         Scene sc = new Scene(sp,1601,801);
-        st2.setScene(sc);
-        st2.show();
-        drawInfoPallet();
+        st.setScene(sc);
+        st.show();
+        Stage st2 = drawInfoPallet();
+        st.setOnCloseRequest(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                st2.close();
+            }
+        });
+        
     }
     
     
-    public void drawInfoPallet(){
+    public Stage drawInfoPallet(){
         Rectangle text = new Rectangle(); text.setHeight(30);text.setWidth(40);
         text.setStyle("-fx-fill: lavender; -fx-stroke: darkviolet; -fx-stroke-width: 3;");
         Label textLbl = new Label("text");textLbl.setFont(new Font("Tahoma",20));
@@ -116,6 +124,7 @@ public class TreeMap {
         Scene sc =  new Scene(gp,200,800);
         st.setScene(sc);
         st.show();
+        return st;
     }
     
     private Double getTreemapRectangles(Tree<Descriptable> tree, Rectangle parentRectangle, double parentSize, int level, Double desplazamiento){

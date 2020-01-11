@@ -62,7 +62,7 @@ public class FileDescriptor implements Descriptable {
         LinkedList<String> video = new LinkedList();
         video.add("asf");video.add("avi");video.add("bik");video.add("dvi");video.add("dvix");video.add("dvd");video.add("ivf");video.add("m1v");video.add("mov");
         video.add("movie");video.add("mp2v");video.add("mp4");video.add("mpa");video.add("mpe");video.add("mpeg");video.add("mpg");video.add("mpv2");video.add("qt");
-        video.add("qtl");video.add("rpm");video.add("smk");video.add("wm");video.add("wmv");video.add("wob");
+        video.add("qtl");video.add("rpm");video.add("smk");video.add("wm");video.add("wmv");video.add("wob");video.add("mkv");
         LinkedList<String> image = new LinkedList();
         image.add("ais");image.add("amp");image.add("bw");image.add("cdr");image.add("cdt");image.add("cgm");image.add("cmx");image.add("cpt");image.add("dcx");
         image.add("dib");image.add("emf");image.add("gbr");image.add("gif");image.add("ico");image.add("iff");image.add("ilbm");image.add("jfif");image.add("jif");
@@ -96,6 +96,7 @@ public class FileDescriptor implements Descriptable {
         LinkedList<String> diskimage = new LinkedList();
         diskimage.add("iso");diskimage.add("mds");diskimage.add("img");diskimage.add("dmg");diskimage.add("dmgpart");diskimage.add("disk");diskimage.add("dvdr");diskimage.add("hdi");
         diskimage.add("hds");diskimage.add("hfs");diskimage.add("ibp");diskimage.add("isz");diskimage.add("ncd");diskimage.add("sdi");diskimage.add("x64");diskimage.add("xvd");
+        diskimage.add("gradle");diskimage.add("gitnore");diskimage.add("iml");diskimage.add("mf");
         extencion = extencion.toLowerCase();
         if(text.contains(extencion)){
             return "-fx-fill: lavender; -fx-stroke: darkviolet; -fx-stroke-width: 1;";
