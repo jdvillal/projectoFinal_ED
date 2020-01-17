@@ -12,9 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -59,13 +57,9 @@ public class PaneOrganizer {
                 File fl = new File(dirLbl.getText());
                 Tree<Descriptable> dirTree = createDirectoryTree(fl,0);
                 TreeMap tm = new TreeMap(dirTree);
-                tm.drawTreemap();
-                System.out.println("Total size: " + getDirSize(fl));
-                //treeIterator(dirTree, 0);
-                //rectangle();
+                tm.updateTreemap();
             }
         });
-        
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         root.setSpacing(20);
@@ -77,19 +71,6 @@ public class PaneOrganizer {
         primaryStage.show();
     }
     
-    public void rectangle(){
-        Stage st2 = new Stage();
-        Rectangle rc = new Rectangle();
-        //rc.setTranslateX(0);rc.setTranslateY(100);
-        rc.setWidth(100);
-        rc.setHeight(100);
-        GridPane sp = new GridPane();
-        sp.getChildren().add(rc);
-        Scene sc = new Scene(sp,400,400);
-        st2.setScene(sc);
-        st2.show();
-    }
-
     static long getDirSize(File folder) {
         long length = 0;
         File[] files = folder.listFiles();
@@ -124,16 +105,5 @@ public class PaneOrganizer {
         return tree;
     }
 
-    static void treeIterator(Tree<Descriptable> t, int tabs) {
-        String identer = "";
-        for (int i = 0; i < tabs; i++) {
-            identer = identer + "|    ";
-        }
-        System.out.println(identer + t.getRoot().getContent().getDescription());
-        LinkedList<Tree<Descriptable>> children = t.getChildren();
-        for (int i = 0; i < t.countChildren(); i++) {
-            treeIterator(children.get(i), tabs + 1);
-        }
-    }
 
 }

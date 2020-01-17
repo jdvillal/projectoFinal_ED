@@ -90,6 +90,11 @@ public class LinkedList<E> {
         return false;
     }
     
+    public void removeAll(){
+        this.head = null;
+        this.effectiveSize = 0;
+    }
+    
   
     
     
