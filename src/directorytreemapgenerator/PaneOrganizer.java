@@ -10,8 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
@@ -20,6 +23,7 @@ import project.Tree.Tree;
 import project.fileDescriptor.Descriptable;
 import project.fileDescriptor.FileDescriptor;
 import project.linkedList.LinkedList;
+
 /**
  *
  * @author daniel
@@ -54,10 +58,20 @@ public class PaneOrganizer {
         genTreeBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                File fl = new File(dirLbl.getText());
-                Tree<Descriptable> dirTree = createDirectoryTree(fl,0);
-                TreeMap tm = new TreeMap(dirTree);
-                tm.updateTreemap();
+                try{
+                    File fl = new File(dirLbl.getText());
+                    Tree<Descriptable> dirTree = createDirectoryTree(fl, 0);
+                    TreeMap tm = new TreeMap(dirTree);
+                    tm.updateTreemap(true);
+                }catch(Exception ex){
+                    Alert al = new Alert(AlertType.ERROR);
+                    al.setTitle("Error al leer el directorio seleccionado");
+                    al.setContentText("El directorio elegido podría contener archivos ocultos y/o protegidos por el sistema.\n"
+                            + "Consejos:\n"
+                            + "-Evite seleccionar un disco, en su lugar seleccione un directorio.\n"
+                            + "-Evite seleccionar directorios utilizados por el sistema para su funcionamiento.");
+                    al.showAndWait();
+                }
             }
         });
         VBox root = new VBox();
@@ -68,9 +82,10 @@ public class PaneOrganizer {
 
         primaryStage.setTitle("Directory Treemap Generator");
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
         primaryStage.show();
     }
-    
+
     static long getDirSize(File folder) {
         long length = 0;
         File[] files = folder.listFiles();
@@ -89,21 +104,16 @@ public class PaneOrganizer {
         File[] files = folder.listFiles();
         if (files.length != 0) {
             LinkedList<Tree<Descriptable>> childrenList = new LinkedList();
-            String identer = "|";
-            for (int i = 0; i < tabs; i++) {
-                identer = identer + "|    ";
-            }
             for (File fl : files) {
                 if (fl.isFile()) {
                     childrenList.add(new Tree(new FileDescriptor(fl)));
                 } else {
-                    childrenList.add(createDirectoryTree(fl,tabs+1));
+                    childrenList.add(createDirectoryTree(fl, tabs + 1));
                 }
             }
             tree.setChildren(childrenList);
-        } 
+        }
         return tree;
     }
-
 
 }

@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -41,6 +42,7 @@ public class TreeMap {
     private final Stage mainSt;
     private Scene mainSc;
     private Stack<Tree<Descriptable>> lastScenes;
+    Boolean horizontalSense = true;
 
     public TreeMap(Tree<Descriptable> directoryTree) {
         this.directoryTree = directoryTree;
@@ -50,26 +52,31 @@ public class TreeMap {
         lastScenes = new Stack();
     }
 
-    public void updateTreemap() {
-        this.drawTreemapScene();
+    public void updateTreemap(boolean horizontal) {
+        this.drawTreemapScene(horizontal);
         mainSt.setScene(mainSc);
-        mainSt.setTitle(this.directoryTree.getRoot().getContent().getDescription());
+        mainSt.setTitle("Tremap: " + this.directoryTree.getRoot().getContent().getDescription());
+        mainSt.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
         mainSt.show();
     }
 
-    public void drawTreemapScene() {
+    public void drawTreemapScene(boolean horizontal) {
         Rectangle rc = new Rectangle();
         rc.setManaged(false);
         rc.setWidth(1250);
         rc.setHeight(800);
         rc.setTranslateX(0);
         rc.setTranslateY(0);
-        getTreemapRectangles(this.directoryTree, rc, this.directoryTree.getRoot().getContent().getSize(), 0, 0d);
+        if(horizontal){
+            getTreemapRectangles(this.directoryTree, rc, this.directoryTree.getRoot().getContent().getSize(), 0, 0d);
+        }else{
+            getTreemapRectangles(this.directoryTree, rc, this.directoryTree.getRoot().getContent().getSize(), 1, 0d);
+        }
         GridPane sp = new GridPane();
         for (int i = 0; i < this.rectangles.getSize(); i++) {
             sp.add(this.rectangles.get(i), 0, 0);
         }
-        getChildrenRectangles(rc, this.directoryTree.getRoot().getContent().getSize(), true);
+        getChildrenRectangles(rc, this.directoryTree.getRoot().getContent().getSize(), horizontal);
         for (int i = 0; i < directChildren.getSize(); i++) {
             sp.add(this.directChildren.get(i), 0, 0);
         }
@@ -214,19 +221,21 @@ public class TreeMap {
         });
 
         Button mapChildBtn = new Button("Map child");
+        Button backButton = new Button("<-");
         mapChildBtn.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
                 try {
                     Descriptable selectedChild = table.getSelectionModel().getSelectedItem();
-                    for(int i = 0; i < children.getSize();i++){
+                    for (int i = 0; i < children.getSize(); i++) {
                         Descriptable ds = children.get(i).getRoot().getContent();
-                        if(ds.equals(selectedChild)){
+                        if (ds.equals(selectedChild)) {
                             lastScenes.push(directoryTree);
+                            backButton.setDisable(false);
                             directoryTree = children.get(i);
                             rectangles.removeAll();
                             directChildren.removeAll();
-                            updateTreemap();
+                            updateTreemap(true);
                         }
                     }
                 } catch (NullPointerException npe) {
@@ -238,23 +247,41 @@ public class TreeMap {
             }
         });
 
-        Button backButton = new Button("<-");
         backButton.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
-                if(!lastScenes.isEmpty()){
+                if (!lastScenes.isEmpty()) {
                     rectangles.removeAll();
                     directChildren.removeAll();
                     directoryTree = lastScenes.pop();
-                    updateTreemap();
+                    updateTreemap(true);
+                } else {
+                    backButton.setDisable(true);
                 }
             }
         });
         
+        Button turnButton = new Button("Girar");
+        turnButton.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                rectangles.removeAll();
+                directChildren.removeAll();
+                if(horizontalSense){
+                    updateTreemap(false);
+                    horizontalSense = false;
+                }else{
+                    updateTreemap(true);
+                    horizontalSense = true;
+                }
+                
+            }
+        });
+
         VBox buttonsVB = new VBox();
         buttonsVB.setAlignment(Pos.CENTER);
         buttonsVB.setSpacing(10);
-        buttonsVB.getChildren().addAll(backButton, printButton, showButton, mapChildBtn);
+        buttonsVB.getChildren().addAll(backButton, printButton, showButton, mapChildBtn, turnButton);
 
         GridPane gp = new GridPane();
         gp.add(text, 0, 1);
